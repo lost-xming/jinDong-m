@@ -124,7 +124,7 @@ class Header extends Component {
 						<div>消费维权热线</div>
 						<div>0769-22225669</div>
 						<div>举报邮箱</div>
-						<div>0769-22225669</div>
+						<h3>jindong2020@126.com</h3>
 					</div>
 				</Modal>
 			</div>
