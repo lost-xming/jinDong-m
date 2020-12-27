@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import Proptypes from "prop-types";
 import { withRouter, NavLink } from "react-router-dom";
 import router from "./../../router/index";
 import {
@@ -18,15 +20,44 @@ import {
 import "./index.less";
 const { TabPane } = Tabs;
 class Header extends Component {
-	static propTypes = {};
-	static defaultProps = {};
+	static propTypes = {
+		getData: Proptypes.func,
+	};
+	static defaultProps = {
+		getData: () => {},
+	};
 	constructor(props) {
 		super(props);
 		this.state = {
 			drawerVisible: false,
 			modalVisible: false,
+			data: [],
 		};
 	}
+	componentDidMount() {
+		this.initData();
+	}
+	initData = async () => {
+		const { getData } = this.props;
+		const data = await getData();
+		router.map((item) => {
+			if (item.name === "home") {
+				item.title = data.indexName;
+			} else if (item.name === "info") {
+				item.title = data.info;
+			} else if (item.name === "product") {
+				item.title = data.product;
+			} else if (item.name === "introduction") {
+				item.title = data.introduction;
+			} else if (item.name === "news") {
+				item.title = data.news;
+			}
+			return null;
+		});
+		this.setState({
+			data: router,
+		});
+	};
 	onClose = () => {
 		this.setState({
 			drawerVisible: false,
@@ -65,7 +96,7 @@ class Header extends Component {
 	};
 
 	render() {
-		const { drawerVisible, modalVisible } = this.state;
+		const { drawerVisible, modalVisible, data } = this.state;
 		const { match = {} } = this.props;
 		const { path = "" } = match;
 		const activePathItem = router.filter((item) => item.path === path);
@@ -96,7 +127,7 @@ class Header extends Component {
 					width={200}
 				>
 					<div className="header-router">
-						{router.map((item, index) => {
+						{data.map((item, index) => {
 							if (!item.notRender) {
 								if (item.path) {
 									return this._renderRouter(item);
@@ -131,5 +162,12 @@ class Header extends Component {
 		);
 	}
 }
-
-export default withRouter(Header);
+const mapDispatch = (dispatch) => {
+	return {
+		getData: dispatch.headerStore.getData,
+	};
+};
+const mapState = (state) => {
+	return {};
+};
+export default connect(mapState, mapDispatch)(withRouter(Header));

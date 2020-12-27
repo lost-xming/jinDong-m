@@ -27,9 +27,6 @@ const routes = [
 		exact: true,
 	},
 	{
-		title: "顶部悬浮产品介绍",
-	},
-	{
 		path: "/product",
 		name: "product",
 		title: "产品中心",

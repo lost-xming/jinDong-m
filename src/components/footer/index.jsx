@@ -1,87 +1,34 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import Proptypes from "prop-types";
 import { Button, Image, Modal } from "antd";
 import { withRouter } from "react-router";
 import { WechatOutlined } from "@ant-design/icons";
 import "./index.less";
 class Footer extends Component {
-	static propTypes = {};
-	static defaultProps = {};
+	static propTypes = {
+		getData: Proptypes.func,
+	};
+	static defaultProps = {
+		getData: () => {},
+	};
 	constructor(props) {
 		super(props);
 		this.state = {
-			list: [
-				{
-					title: "全屋互联网家电",
-					itemArr: [
-						{
-							title: "互联网空调",
-							href: "1111",
-						},
-						{
-							title: "互联网空调",
-							href: "2222",
-						},
-						{
-							title: "互联网空调",
-							href: "3333",
-						},
-					],
-				},
-				{
-					title: "全屋互联网家电",
-					itemArr: [
-						{
-							title: "互联网空调",
-							href: "1111",
-						},
-						{
-							title: "互联网空调",
-							href: "2222",
-						},
-						{
-							title: "互联网空调",
-							href: "3333",
-						},
-					],
-				},
-				{
-					title: "全屋互联网家电",
-					itemArr: [
-						{
-							title: "互联网空调",
-							href: "1111",
-						},
-						{
-							title: "互联网空调",
-							href: "2222",
-						},
-						{
-							title: "互联网空调",
-							href: "3333",
-						},
-					],
-				},
-				{
-					title: "全屋互联网家电",
-					itemArr: [
-						{
-							title: "互联网空调",
-							href: "1111",
-						},
-						{
-							title: "互联网空调",
-							href: "2222",
-						},
-						{
-							title: "互联网空调",
-							href: "3333",
-						},
-					],
-				},
-			],
+			list: [],
 			modalVisible: false,
 		};
 	}
+	componentDidMount() {
+		this.initData();
+	}
+	initData = async () => {
+		const { getData } = this.props;
+		const data = await getData();
+		this.setState({
+			list: data.list,
+		});
+	};
 	onWeiChat = () => {
 		this.setState({
 			modalVisible: true,
@@ -101,19 +48,19 @@ class Footer extends Component {
 						return (
 							<div key={`item-${index}`} className="footer-flex-item">
 								<h3>{item.title}</h3>
-								{item.itemArr &&
-									item.itemArr.map((value, ind) => {
+								{item.arr &&
+									item.arr.map((value, ind) => {
 										return (
 											<div key={`value-${ind}`}>
 												<Button
 													type="link"
 													size="small"
 													onClick={() => {
-														this.props.history.push(value.href);
+														this.props.history.push(value.url);
 													}}
 													className="footer-flex-item-list"
 												>
-													{value.title}
+													{value.name}
 												</Button>
 											</div>
 										);
@@ -130,7 +77,6 @@ class Footer extends Component {
 					<h3 onClick={this.onWeiChat}>
 						扫码进入锦东商城 <WechatOutlined className="footer-wchat" />
 					</h3>
-					<div></div>
 				</div>
 				<div className="footer-desc">
 					<div>© 2020 jddianqi.cn 广东锦东电器科技有限公司 </div>
@@ -157,4 +103,12 @@ class Footer extends Component {
 	}
 }
 
-export default withRouter(Footer);
+const mapDispatch = (dispatch) => {
+	return {
+		getData: dispatch.footerStore.getData,
+	};
+};
+const mapState = (state) => {
+	return {};
+};
+export default connect(mapState, mapDispatch)(withRouter(Footer));
