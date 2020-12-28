@@ -70,7 +70,7 @@ class Footer extends Component {
 					})}
 				</div>
 				<div key="item-kefu" className="footer-flex-kefu">
-					<h3>客服电话 : 0769-22225669</h3>
+					<h3>客服电话 : 400-9151812</h3>
 					<h3>消费维权热线 : 0769-22225669</h3>
 					<h3>举报邮箱 : jindong2020@126.com</h3>
 					<h3>公司地址 : 广东省东莞市松山湖中科创新广场E座804</h3>
