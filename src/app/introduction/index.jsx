@@ -31,7 +31,7 @@ class Introduction extends Component {
 			const newItem = item[item.length - 1];
 			if (newItem.url || (newItem.response && newItem.response.data.imageUrl)) {
 				newArr.push({
-					url: newItem.url || newItem.response.data.imageUrl,
+					url: newItem.url || newItem.response.data.imageUrl.url,
 					type: newItem.type || "image",
 				});
 			}
