@@ -56,7 +56,12 @@ class Footer extends Component {
 													type="link"
 													size="small"
 													onClick={() => {
-														this.props.history.push(value.url);
+														const hasHttp = /http|https/.test(value.url);
+														if (hasHttp) {
+															window.open(value.url);
+														} else {
+															this.props.history.push(value.url);
+														}
 													}}
 													className="footer-flex-item-list"
 												>
